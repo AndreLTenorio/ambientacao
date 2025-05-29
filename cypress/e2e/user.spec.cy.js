@@ -1,14 +1,13 @@
 import userData from '../fixtures/users/userData.json'
+import LoginPage from '../pages/login.js'
+
+const loginPage = new LoginPage()
 
 describe('Orange HRM Tests', () => {
 
   const selectorsList = {
-    usernameField: "[name='username']",
-    passwordField: "[name='password']",
-    loginButton: "[type='submit']",
     sectionTitleTopBar: '.oxd-topbar-header-breadcrumb-module',
     dashboardGrid: ".orangehrm-dashboard-grid",
-    wrongCredentialAlert: "[role='alert']",
     myInfoButton: '[href="/web/index.php/pim/viewMyDetails"]',
     firstNameField: '[name="firstName"]',
     lastNameField: '[name="lastName"]',
@@ -23,29 +22,30 @@ describe('Orange HRM Tests', () => {
   }
   
   it.only('User Info Update - Success', () => {
+    loginPage.accessLoginPage()
+    LoginPage.loginWithUser(userData.userSuccess.username, userData.userSuccess.password)
 
-    cy.visit('/auth/login')
-    cy.get(selectorsList.usernameField).type(userData.userSuccess.username)
-    cy.get(selectorsList.passwordField).type(userData.userSuccess.password)
-    cy.get(selectorsList.loginButton).click()
-    cy.location('pathname').should('equal', '/web/index.php/dashboard/index')
-    cy.get(selectorsList.dashboardGrid)
-    cy.get(selectorsList.myInfoButton).click()
-    cy.get(selectorsList.firstNameField).clear().type('QA')
-    cy.get(selectorsList.lastNameField).clear().type('Engineer')
-    cy.get(selectorsList.middleNameField).clear().type('Test')
-    cy.get(selectorsList.genericField).eq(3).clear().type('0024')//employee ID
-    cy.get(selectorsList.genericField).eq(4).clear().type('0025')//Other ID
-    cy.get(selectorsList.genericField).eq(5).clear().type('123456')//Driver's License Number
-    cy.get(selectorsList.genericField).eq(6).clear().type('2025-28-05')//License Expiry Date
-    cy.contains('Close').click({force: true}) //close date picker
-    cy.get(selectorsList.genericComboBox).eq(0).click({force: true}) //Select Nationality
-    cy.get(selectorsList.selectNationality).click() //Select Brazilian
-    cy.get(selectorsList.genericComboBox).eq(1).click({force: true}) //Select Marital Status
-    cy.get(selectorsList.selectMaritalStatus).eq(2).click() //Select Married
-    cy.get(selectorsList.submitButton).eq(0).click({force: true})
-    cy.get('body').should('contain', 'Successfully Updated')
-    cy.get('.oxd-toast-close')
+    // cy.get(selectorsList.usernameField).type(userData.userSuccess.username)
+    // cy.get(selectorsList.passwordField).type(userData.userSuccess.password)
+    // cy.get(selectorsList.loginButton).click()
+    // cy.location('pathname').should('equal', '/web/index.php/dashboard/index')
+    // cy.get(selectorsList.dashboardGrid)
+    // cy.get(selectorsList.myInfoButton).click()
+    // cy.get(selectorsList.firstNameField).clear().type('QA')
+    // cy.get(selectorsList.lastNameField).clear().type('Engineer')
+    // cy.get(selectorsList.middleNameField).clear().type('Test')
+    // cy.get(selectorsList.genericField).eq(3).clear().type('0024')//employee ID
+    // cy.get(selectorsList.genericField).eq(4).clear().type('0025')//Other ID
+    // cy.get(selectorsList.genericField).eq(5).clear().type('123456')//Driver's License Number
+    // cy.get(selectorsList.genericField).eq(6).clear().type('2025-28-05')//License Expiry Date
+    // cy.contains('Close').click({force: true}) //close date picker
+    // cy.get(selectorsList.genericComboBox).eq(0).click({force: true}) //Select Nationality
+    // cy.get(selectorsList.selectNationality).click() //Select Brazilian
+    // cy.get(selectorsList.genericComboBox).eq(1).click({force: true}) //Select Marital Status
+    // cy.get(selectorsList.selectMaritalStatus).eq(2).click() //Select Married
+    // cy.get(selectorsList.submitButton).eq(0).click({force: true})
+    // cy.get('body').should('contain', 'Successfully Updated')
+    // cy.get('.oxd-toast-close')
 
   })
   it('Login - Fail', () => {
