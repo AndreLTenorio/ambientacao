@@ -7,6 +7,8 @@ class LoginPage {
             loginButton: "[type='submit']",
             wrongCredentialAlert: "[role='alert']",
         }
+
+        return selectors;
     }
 
     accessLoginPage() {
@@ -14,9 +16,9 @@ class LoginPage {
     }
 
     loginWithUser(username, password) {
-        cy.get(this.selectorsList().usernameField).type(username);
-        cy.get(this.selectorsList().passwordField).type(password);
-        cy.get(this.selectorsList().loginButton).click();
+        cy.get('input[name="username"]').type(username)
+        cy.get('input[name="password"]').type(password)
+        cy.get('button[type="submit"]').click()
     }
 }
 
