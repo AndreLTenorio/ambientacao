@@ -1,5 +1,7 @@
 class LoginPage {
 
+        
+
     selectorsList() {
         const selectors = {
             usernameField: "[name='username']",
@@ -15,7 +17,7 @@ class LoginPage {
         cy.visit('/auth/login');
     }
 
-    loginWithUser(username, password) {
+    loginWithAnyUser(username, password) {
         cy.get('input[name="username"]').type(username)
         cy.get('input[name="password"]').type(password)
         cy.get('button[type="submit"]').click()

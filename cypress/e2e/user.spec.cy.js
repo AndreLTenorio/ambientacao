@@ -1,14 +1,17 @@
 import userData from '../fixtures/users/userData.json'
 import LoginPage from '../pages/login.js'
+import DashboardPage from '../pages/dashboardPage.js'
+import MenuPage from '../pages/menuPage.js'
 
 const loginPage = new LoginPage()
+const dashboardPage = new DashboardPage()
+const menuPage = new MenuPage()
+
 
 describe('Orange HRM Tests', () => {
 
   const selectorsList = {
-    sectionTitleTopBar: '.oxd-topbar-header-breadcrumb-module',
-    dashboardGrid: ".orangehrm-dashboard-grid",
-    myInfoButton: '[href="/web/index.php/pim/viewMyDetails"]',
+    
     firstNameField: '[name="firstName"]',
     lastNameField: '[name="lastName"]',
     middleNameField: '[name="middleName"]',
@@ -18,16 +21,18 @@ describe('Orange HRM Tests', () => {
     selectNationality: ":nth-child(26) > span",
     selectMaritalStatus: ":nth-child(3)",
     submitButton: "[type='submit']",
+    
 
   }
   
   it.only('User Info Update - Success', () => {
     loginPage.accessLoginPage()
-    loginPage.loginWithUser(userData.userSuccess.username, userData.userSuccess.password)
+    loginPage.loginWithAnyUser(userData.userSuccess.username, userData.userSuccess.password)
 
-    cy.location('pathname').should('equal', '/web/index.php/dashboard/index')
-    cy.get(selectorsList.dashboardGrid)
-    cy.get(selectorsList.myInfoButton).click()
+    dashboardPage.checkDashboardPage()
+
+    menuPage.acessMyInfoButton()
+
     cy.get(selectorsList.firstNameField).clear().type('QA')
     cy.get(selectorsList.lastNameField).clear().type('Engineer')
     cy.get(selectorsList.middleNameField).clear().type('Test')
@@ -43,6 +48,7 @@ describe('Orange HRM Tests', () => {
     cy.get(selectorsList.submitButton).eq(0).click({force: true})
     cy.get('body').should('contain', 'Successfully Updated')
     cy.get('.oxd-toast-close')
+    
 
   })
   it('Login - Fail', () => {
