@@ -2,27 +2,17 @@ import userData from '../fixtures/users/userData.json'
 import LoginPage from '../pages/login.js'
 import DashboardPage from '../pages/dashboardPage.js'
 import MenuPage from '../pages/menuPage.js'
+import MyInfoPage from '../pages/myInfoPage.js'
 
 const loginPage = new LoginPage()
 const dashboardPage = new DashboardPage()
 const menuPage = new MenuPage()
+const myInfoPage = new MyInfoPage()
 
 
 describe('Orange HRM Tests', () => {
 
-  const selectorsList = {
-    
-    firstNameField: '[name="firstName"]',
-    lastNameField: '[name="lastName"]',
-    middleNameField: '[name="middleName"]',
-    genericField: ".oxd-input--active",
-    dateField: "[placeholder='yyyy-dd-mm']",
-    genericComboBox: ".oxd-select-text--arrow",
-    selectNationality: ":nth-child(26) > span",
-    selectMaritalStatus: ":nth-child(3)",
-    submitButton: "[type='submit']",
-    
-
+  const selectorsList = {    
   }
   
   it.only('User Info Update - Success', () => {
@@ -33,24 +23,12 @@ describe('Orange HRM Tests', () => {
 
     menuPage.acessMyInfoButton()
 
-    cy.get(selectorsList.firstNameField).clear().type('QA')
-    cy.get(selectorsList.lastNameField).clear().type('Engineer')
-    cy.get(selectorsList.middleNameField).clear().type('Test')
-    cy.get(selectorsList.genericField).eq(3).clear().type('0024')//employee ID
-    cy.get(selectorsList.genericField).eq(4).clear().type('0025')//Other ID
-    cy.get(selectorsList.genericField).eq(5).clear().type('123456')//Driver's License Number
-    cy.get(selectorsList.genericField).eq(6).clear().type('2025-28-05')//License Expiry Date
-    cy.contains('Close').click({force: true}) //close date picker
-    cy.get(selectorsList.genericComboBox).eq(0).click({force: true}) //Select Nationality
-    cy.get(selectorsList.selectNationality).click() //Select Brazilian
-    cy.get(selectorsList.genericComboBox).eq(1).click({force: true}) //Select Marital Status
-    cy.get(selectorsList.selectMaritalStatus).eq(2).click() //Select Married
-    cy.get(selectorsList.submitButton).eq(0).click({force: true})
-    cy.get('body').should('contain', 'Successfully Updated')
-    cy.get('.oxd-toast-close')
-    
-
+    myInfoPage.fillPersonalDetails("QA Automation", "Test", "Cypress")
+    myInfoPage.fillEmployeeDetails("12345", "67890", "DL123456", "2025-12-31") 
+    myInfoPage.fillStatus()
+    myInfoPage.saveForm()
   })
+
   it('Login - Fail', () => {
   
     cy.visit('/auth/login')
